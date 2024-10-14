@@ -1,0 +1,31 @@
+import os
+import shutil
+
+# Define the directory to organize
+directory = '/path/to/your/folder'
+
+# Create a dictionary mapping file extensions to folder names
+file_types = {
+    'images': ['jpg', 'jpeg', 'png', 'gif'],
+    'documents': ['pdf', 'docx', 'txt'],
+    'spreadsheets': ['xls', 'xlsx', 'csv'],
+    'audio': ['mp3', 'wav'],
+    'video': ['mp4', 'mkv', 'avi'],
+}
+
+# Create folders if they don't exist
+for folder in file_types.keys():
+    folder_path = os.path.join(directory, folder)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+# Move files into their respective folders
+for filename in os.listdir(directory):
+    file_extension = filename.split('.')[-1]
+    file_path = os.path.join(directory, filename)
+
+    for folder, extensions in file_types.items():
+        if file_extension.lower() in extensions:
+            shutil.move(file_path, os.path.join(directory, folder, filename))
+            print(f'Moved {filename} to {folder} folder')
+            break
